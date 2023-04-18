@@ -40,12 +40,14 @@ body{
 }
 .Calculator-log{
     grid-column: span 4;
+    text-align: right;
+    margin-top: 20px;
 }
 .input{
-    font-size: 3vw;
+    font-size: 6vh;
     grid-column: span 4;
     text-align: right;
-    /* margin-top: auto; */
+    margin-top: 20px;
 }
 button{
     background-color: #f9f9f9;
