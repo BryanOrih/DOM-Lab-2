@@ -8,12 +8,17 @@ let mathOperator = document.querySelectorAll(".mathOperator")
 let calcLog = document.querySelector(".Calculator-log")
 const totalNum = document.querySelector(".totalSum")
 const ceButton = document.querySelector(".CE")
-let closeBtn = document.querySelector(".close")
-const minimizeBtn = document.querySelector(".micro-size")
 
 let operators = ["+","-","/","*"]
 let lastNumInInput = input.textContent[input.textContent.length-1]
 let lastNumInLog = calcLog.textContent[calcLog.textContent.length-1]
+
+//REVIEW - THIS IS TO BE CHANGED ONCE NEW MODES ARRIVE
+document.querySelector(".toggle").addEventListener('click', () =>{
+    alert("Currently only available in standard mode. More modes coming soon")
+})
+
+
 
 //NOTE - CLEARS THE INPUT
 clearButton.addEventListener('click', ()=>{
@@ -121,21 +126,38 @@ totalNum.addEventListener('click', () =>{
     }
 })
 
+let screenLevel = 1
+
 //NOTE - CLOSE CALCULATOR BUTTON
-closeBtn.addEventListener('click', () =>{
-    console.log("hey");
+function closeBtn(){
     document.querySelector("body").innerHTML = ''
-})
+}
 
 //NOTE - MINIMIZE SCREEN
-minimizeBtn.addEventListener('click', ()=>{
-    document.querySelector("body").innerHTML = `<div class="window-options">
-            <button class="micro-size">-</button>
-            <button class="enlarge"><i class="fa-sharp fa-light fa-square"></i></button>
-            <button class="close">X</button>
-        </div>`;
-    return closeBtn = closeBtn
-})
+function minimizeBtn(){
+    document.querySelector(".smallScreen").style.display= ""
+    document.querySelector("#Calculator").style.display= "none"
+    screenLevel = 0
+}
+
+//NOTE - ENLARGE AND DELARGE FROM LARGE SCREEN
+function enlarge(){
+    if(screenLevel === 0){
+        document.querySelector(".smallScreen").style.display= "none"
+        document.querySelector("#Calculator").style.display= ""
+        document.querySelector("#Calculator").style.width= "25vw";
+        document.querySelector("#Calculator").style.height= "70vh";
+        screenLevel = 1
+    }else if(screenLevel === 1){
+        document.querySelector("#Calculator").style.width= "99vw";
+        document.querySelector("#Calculator").style.height= "99vh";
+        screenLevel = 2
+    }else{
+        document.querySelector("#Calculator").style.width= "25vw";
+        document.querySelector("#Calculator").style.height= "70vh";
+        screenLevel = 1
+    }
+}
 
 
 
