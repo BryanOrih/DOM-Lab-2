@@ -29,7 +29,9 @@ body{
 .window-options{
     grid-column: span 2;
     justify-self: right;
-
+}
+.window-options > *{
+    font-size: 1.2em;
 }
 .toggle{
     font-size: 2.5vh;
