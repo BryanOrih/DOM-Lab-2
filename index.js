@@ -8,6 +8,8 @@ let mathOperator = document.querySelectorAll(".mathOperator")
 let calcLog = document.querySelector(".Calculator-log")
 const totalNum = document.querySelector(".totalSum")
 const ceButton = document.querySelector(".CE")
+let closeBtn = document.querySelector(".close")
+const minimizeBtn = document.querySelector(".micro-size")
 
 let operators = ["+","-","/","*"]
 let lastNumInInput = input.textContent[input.textContent.length-1]
@@ -18,10 +20,9 @@ clearButton.addEventListener('click', ()=>{
     input.removeAttribute('id')
     input.setAttribute("id", "reset");
     input.textContent = "0"
-    calcLog.textContent = ""
 })
 
-
+//NOTE - CLEARS EVERYTHING
 ceButton.addEventListener('click', ()=>{
     input.removeAttribute('id')
     input.setAttribute("id", "reset");
@@ -32,7 +33,12 @@ ceButton.addEventListener('click', ()=>{
 //NOTE - INPUTS THE NUMBERS IN CALCULATOR
 for( let btn of numBtn){
     btn.addEventListener('click', (e) => {
-        if(input.hasAttribute("id")){
+        if(calcLog.textContent.includes("=")){
+            input.removeAttribute('id')
+            input.setAttribute("id", "reset");
+            calcLog.textContent = ""
+            input.textContent = btn.textContent
+        }else if(input.hasAttribute("id")){
             input.removeAttribute('id')
             input.textContent = btn.textContent
         }else{
@@ -44,7 +50,7 @@ for( let btn of numBtn){
 //NOTE - BACKSPACE FUNCTION
 backSpace.addEventListener('click', () => {
     input.textContent = input.textContent.substr(0,input.textContent.length-1);
-    if(input.textContent == ""){
+    if(input.textContent == "" || input.textContent == "-"){
         input.setAttribute("id", "reset");
         input.textContent = "0"
     }
@@ -78,11 +84,13 @@ for( let btn of mathOperator){
             calcLog.textContent = input.textContent + btn.textContent
             input.setAttribute("id", "total");
         }else if(operators.some(operator => calcLog.textContent.includes(operator)) && input != 0){
-            // console.log(calcLog.textContent, input.textContent);
-            input.textContent = eval(calcLog.textContent.concat(input.textContent))
+            calcLog.textContent = calcLog.textContent + input.textContent
+            if(calcLog.textContent.includes("--")){
+                calcLog.textContent = calcLog.textContent.replace('--','+')
+            }
+            input.textContent = eval(calcLog.textContent)
             calcLog.textContent = input.textContent + btn.textContent
-            input.setAttribute("id", "total");
-            
+            input.setAttribute("id", "total");  
         }else{
             calcLog.textContent = input.textContent.concat(btn.textContent)
             input.setAttribute("id", "total");
@@ -104,6 +112,33 @@ totalNum.addEventListener('click', () =>{
         input.textContent = eval(calcLog.textContent.substring(0,calcLog.textContent.length-1))
     }else{
         calcLog.textContent = calcLog.textContent + input.textContent + "=";
-        input.textContent = eval(calcLog.textContent.substr(0,calcLog.textContent.length-1))
+        if(calcLog.textContent.includes("--")){
+            calcLog.textContent = calcLog.textContent.replace('--','+')
+            input.textContent = eval(calcLog.textContent.substr(0,calcLog.textContent.length-1))
+        }else{
+            input.textContent = eval(calcLog.textContent.substr(0,calcLog.textContent.length-1))
+        }
     }
 })
+
+//NOTE - CLOSE CALCULATOR BUTTON
+closeBtn.addEventListener('click', () =>{
+    console.log("hey");
+    document.querySelector("body").innerHTML = ''
+})
+
+//NOTE - MINIMIZE SCREEN
+minimizeBtn.addEventListener('click', ()=>{
+    document.querySelector("body").innerHTML = `<div class="window-options">
+            <button class="micro-size">-</button>
+            <button class="enlarge"><i class="fa-sharp fa-light fa-square"></i></button>
+            <button class="close">X</button>
+        </div>`;
+    return closeBtn = closeBtn
+})
+
+
+
+
+
+
